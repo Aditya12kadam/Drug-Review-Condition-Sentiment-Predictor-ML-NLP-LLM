@@ -33,8 +33,6 @@ st.set_page_config(layout="wide")
 nltk.download('stopwords')
 nltk.download('wordnet')
 
-# Set page config immediately
-st.set_page_config(page_title="Drug Review Classifier", layout="wide")
 
 # Load models and encoders
 @st.cache_resource
