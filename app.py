@@ -29,7 +29,7 @@ sample_reviews = [
     "Didn't notice much difference but no major side effects either."
 ]
 
-st.set_page_config(layout="wide")
+st.set_page_config()
 nltk.download('stopwords')
 nltk.download('wordnet')
 
