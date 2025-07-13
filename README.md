@@ -22,4 +22,4 @@ This is a full-stack NLP + ML + LLM-powered project that classifies a patient's 
 - NLTK, WordCloud, Matplotlib
 
 ## 📫 Connect with Me
-👤 [Aditya Kadam - LinkedIn](https://www.linkedin.com/in/aditya-kadam-2618a0217)
+👤 [Aditya Kadam - LinkedIn](linkedin.com/in/aditya-kadam12)
