@@ -1,4 +1,4 @@
-print("Aditya")
+
 import streamlit as st
 import pickle 
 import re
@@ -29,7 +29,7 @@ sample_reviews = [
     "Didn't notice much difference but no major side effects either."
 ]
 
-
+st.set_page_config(layout="wide")
 nltk.download('stopwords')
 nltk.download('wordnet')
 
@@ -175,14 +175,16 @@ def display_wordcloud(text):
 st.title("💊 Drug Review Condition & Sentiment Predictor")
 st.markdown("Made by **Aditya Kadam** | NLP + ML + BERT + TinyLLaMA")
 
+
+
 with st.sidebar:
     st.header("🔍 About")
     st.markdown("This app predicts the patient's condition and sentiment from a drug review.")
     model_choice = st.selectbox("Choose Condition Model:", ["BERT"] + list(models.keys()), help="Select model to classify condition")
 
-    st.markdown("---")
-    st.subheader("📊 Model Accuracy Comparison")
-    st.bar_chart(model_scores)
+    #st.markdown("---")
+    # st.subheader("📊 Model Accuracy Comparison")
+    #st.bar_chart(model_scores)
 
 user_input = st.text_area("📝 Enter Drug Review:", value=st.session_state.user_input if "user_input" in st.session_state else "", height=150, key="input_box")
 
@@ -247,6 +249,10 @@ if predict_clicked:
             st.subheader("📈 Prediction Confidence Chart")
             probs_df = {label.strip().title(): float(prob) for label, prob in predictions}
             st.bar_chart(probs_df)
+
+        with tabs[3]: # <--- NEW TAB FOR MODEL COMPARISON
+            st.subheader("📊 Model Accuracy Comparison")
+            st.bar_chart(model_scores) 
 
 if st.session_state.history:
     st.markdown("---")
