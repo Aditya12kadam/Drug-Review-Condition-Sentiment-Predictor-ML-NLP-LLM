@@ -92,6 +92,11 @@ model_scores = {
     "LogisticRegression": 0.8669,
 }
 
+model_scores_df = pd.DataFrame({
+    'Model': list(model_scores.keys()),
+    'Accuracy': list(model_scores.values())
+})
+
 if "history" not in st.session_state:
     st.session_state.history = []
 
@@ -250,7 +255,7 @@ if predict_clicked:
 
         with tabs[3]: # <--- NEW TAB FOR MODEL COMPARISON
             st.subheader("📊 Model Accuracy Comparison")
-            st.bar_chart(model_scores) 
+            st.bar_chart(model_scores_df, x='Model', y='Accuracy')
         
 
 if st.session_state.history:
