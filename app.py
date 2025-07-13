@@ -222,7 +222,7 @@ if predict_clicked:
             "Time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })
 
-        tabs = st.tabs(["📋 Predictions", "☁️ Word Cloud", "📈 Analytics"])
+        tabs = st.tabs(["📋 Predictions", "☁️ Word Cloud", "📈 Analytics","📊 Model Comparison"])
 
         with tabs[0]:
             st.subheader("📋 Top 3 Predicted Conditions:")
@@ -253,6 +253,7 @@ if predict_clicked:
         with tabs[3]: # <--- NEW TAB FOR MODEL COMPARISON
             st.subheader("📊 Model Accuracy Comparison")
             st.bar_chart(model_scores) 
+        
 
 if st.session_state.history:
     st.markdown("---")
