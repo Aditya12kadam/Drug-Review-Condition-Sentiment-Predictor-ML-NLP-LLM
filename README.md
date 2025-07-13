@@ -1,6 +1,6 @@
-# 💊 Drug Review Condition & Sentiment Classifier (Web App)
+# 💊 Drug Review Condition & Sentiment Classifier (ML,NLP,LLM)
 
-This is a full-stack NLP + ML + LLM-powered project that classifies a patient's condition and sentiment based on drug reviews. It also explains the prediction using a TinyLLaMA-based local language model.
+This is a NLP + ML + LLM-powered project that classifies a patient's condition and sentiment based on drug reviews. It also explains the prediction using a TinyLLaMA-based local language model.
 
 ---
 
