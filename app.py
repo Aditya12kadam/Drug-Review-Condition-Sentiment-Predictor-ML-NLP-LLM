@@ -153,7 +153,7 @@ def explain_with_llm(review):
     try:
         result = llm_pipe(
             prompt,
-            max_new_tokens=180,  # Increase for longer explanation
+            max_new_tokens=120,  # Increase for longer explanation
             do_sample=True,
             temperature=0.7,
             top_p=0.9,
