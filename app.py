@@ -235,15 +235,9 @@ if predict_clicked:
             st.subheader("💬 Sentiment:")
             st.success(sentiment)
 
-            generate_llm_explanation = st.checkbox("Generate LLM Explanation (may take a moment)", value=False)
-            if generate_llm_explanation:
-                with st.spinner("Generating LLM explanation..."):
-                    explanation = explain_with_llm(user_input)
-                st.subheader("🧠 Explanation (LLM)")
-                st.info(explanation)
-
-           # st.subheader("🧠 Explanation (LLM)")
-            #st.info(explanation)
+        
+            st.subheader("🧠 Explanation (LLM)")
+            st.info(explanation)
 
         with tabs[1]:
             if cleaned:
