@@ -1,5 +1,5 @@
-streamlit
-scikit-learn==1.6.1
+streamlit==1.46.0 # Or any other recent stable version you prefer
+scikit-learn==1.6.1 # Keep this specific version, as previously discussed
 transformers
 torch
 pandas

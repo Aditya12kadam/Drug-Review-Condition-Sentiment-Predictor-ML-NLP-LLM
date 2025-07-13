@@ -37,30 +37,42 @@ nltk.download('wordnet')
 st.set_page_config(page_title="Drug Review Classifier", layout="wide")
 
 # Load models and encoders
-with open("vectorizer.pkl", "rb") as f:
-    vectorizer = pickle.load(f)
-with open("condition_encoder.pkl", "rb") as f:
-    condition_encoder = pickle.load(f)
-with open("sentiment_model.pkl", "rb") as f:
-    sentiment_model = pickle.load(f)
+@st.cache_resource
+def load_sklearn_artifacts(): # chnge done 
+    with open("vectorizer.pkl", "rb") as f:
+        vectorizer = pickle.load(f)
+    with open("condition_encoder.pkl", "rb") as f:
+        condition_encoder = pickle.load(f)
+    with open("sentiment_model.pkl", "rb") as f:
+        sentiment_model = pickle.load(f)
+    return vectorizer, condition_encoder, sentiment_model  #chnage
+vectorizer, condition_encoder, sentiment_model = load_sklearn_artifacts() # change
 
-models = {
-    "PassiveAggressive": pickle.load(open("passiveaggressive_model.pkl", "rb")),
-    "NaiveBayes": pickle.load(open("naivebayes_model.pkl", "rb")),
-    "LogisticRegression": pickle.load(open("logisticregression_model.pkl", "rb")),
-}
+@st.cache_resource  #
+def load_sklearn_classifier_models():#
+    models = {
+        "PassiveAggressive": pickle.load(open("passiveaggressive_model.pkl", "rb")),
+        "NaiveBayes": pickle.load(open("naivebayes_model.pkl", "rb")),
+        "LogisticRegression": pickle.load(open("logisticregression_model.pkl", "rb")),
+    }
+    return models#
+models = load_sklearn_classifier_models()#
 
-#bert_tokenizer = BertTokenizer.from_pretrained("bert_model")
-#bert_model = BertForSequenceClassification.from_pretrained("bert_model")
+@st.cache_resource #
+def load_all_bert_models(): #
+    #bert_tokenizer = BertTokenizer.from_pretrained("bert_model")
+    #bert_model = BertForSequenceClassification.from_pretrained("bert_model")
 
-bert_tokenizer = AutoTokenizer.from_pretrained("bert_model")
-bert_model = AutoModelForSequenceClassification.from_pretrained("bert_model")
+    bert_tokenizer = AutoTokenizer.from_pretrained("bert_model")
+    bert_model = AutoModelForSequenceClassification.from_pretrained("bert_model")
 
-#sentiment_tokenizer = BertTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
-#sentiment_bert = BertForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+    #sentiment_tokenizer = BertTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+    #sentiment_bert = BertForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
-sentiment_tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
-sentiment_bert = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+    sentiment_tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+    sentiment_bert = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+    return bert_tokenizer, bert_model, sentiment_tokenizer, sentiment_bert #
+bert_tokenizer, bert_model, sentiment_tokenizer, sentiment_bert = load_all_bert_models()
 
 @st.cache_resource
 def load_llm():
