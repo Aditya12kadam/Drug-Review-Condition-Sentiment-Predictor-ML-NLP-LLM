@@ -10,7 +10,8 @@ from scipy.special import softmax
 import nltk
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-from transformers import BertTokenizer, BertForSequenceClassification, pipeline
+# from transformers import BertTokenizer, BertForSequenceClassification, pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 import torch
 import pandas as pd
 from datetime import datetime
@@ -49,11 +50,17 @@ models = {
     "LogisticRegression": pickle.load(open("logisticregression_model.pkl", "rb")),
 }
 
-bert_tokenizer = BertTokenizer.from_pretrained("bert_model")
-bert_model = BertForSequenceClassification.from_pretrained("bert_model")
+#bert_tokenizer = BertTokenizer.from_pretrained("bert_model")
+#bert_model = BertForSequenceClassification.from_pretrained("bert_model")
 
-sentiment_tokenizer = BertTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
-sentiment_bert = BertForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+bert_tokenizer = AutoTokenizer.from_pretrained("bert_model")
+bert_model = AutoModelForSequenceClassification.from_pretrained("bert_model")
+
+#sentiment_tokenizer = BertTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+#sentiment_bert = BertForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+
+sentiment_tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+sentiment_bert = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
 @st.cache_resource
 def load_llm():
@@ -93,7 +100,8 @@ def predict_condition(review, model_name):
         inputs = bert_tokenizer(review, return_tensors="pt", padding=True, truncation=True, max_length=256)
         with torch.no_grad():
             outputs = bert_model(**inputs)
-            probs = torch.nn.functional.softmax(outputs.logits, dim=1)[0].numpy()
+            # probs = torch.nn.functional.softmax(outputs.logits, dim=1)[0].numpy()
+            probs = torch.nn.functional.softmax(outputs.logits, dim=1)[0].cpu().numpy()
         top3_indices = np.argsort(probs)[::-1][:3]
         class_labels = condition_encoder.classes_
         top3_labels = class_labels[top3_indices]
@@ -120,7 +128,8 @@ def predict_sentiment_bert(text):
     inputs = sentiment_tokenizer(text, return_tensors="pt", padding=True, truncation=True)
     with torch.no_grad():
         outputs = sentiment_bert(**inputs)
-        scores = torch.nn.functional.softmax(outputs.logits, dim=1)[0].numpy()
+        #scores = torch.nn.functional.softmax(outputs.logits, dim=1)[0].numpy()
+        scores = torch.nn.functional.softmax(outputs.logits, dim=1)[0].cpu().numpy()
         sentiment = np.argmax(scores) + 1
     return "Positive" if sentiment >= 4 else "Neutral" if sentiment == 3 else "Negative"
 
